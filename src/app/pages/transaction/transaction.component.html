@@ -1,0 +1,131 @@
+<div class="row">
+    <h2>Transactions</h2>
+    <div class="col-md-12 ">
+        <button type="button" class="btn btn-dark m-auto" (click)="openAddTransaction(add)">
+            Tambah Transaksi Baru
+        </button>
+      <table class="table table-bordered mt-4" style="box-sizing: border-box;">
+        <thead class="table-light">
+          <tr class="text-center">
+            <th scope="col">Tanggal</th>
+            <th scope="col">Grand Total</th>
+            <th scope="col">List Supplier</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of transactions;">
+            <td>{{ data.tanggal }}</td>
+            <td>{{ data.grandTotal }}</td>
+            <td>
+                <ul *ngFor="let supplier of data.supplier; index as j">
+                    <li>
+                        <strong>{{supplier.nama}}</strong>
+                        <br>
+                        {{supplier.alamat}}
+                        <br>
+                        List Barang :
+                        <br>
+                        <ul *ngFor="let barang of data.supplier[j].listBarang;">
+                            <li>
+                                {{ barang.namaBarang }}
+                                <br>
+                                {{ barang.deskripsi }}
+                                <br>
+                                {{ barang.harga }}
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+</div>
+
+
+<br>
+<br>
+<br>
+
+<div class="row">
+    <h2>Suppliers</h2>
+    <div class="col-md-12 ">
+        <button type="button" class="btn btn-dark m-auto">
+            Tambah Supplier Baru
+        </button>
+      <table class="table table-bordered mt-4" style="box-sizing: border-box;">
+        <thead class="table-light">
+          <tr class="text-center">
+            <th scope="col">Nama</th>
+            <th scope="col">Alamat</th>
+            <th scope="col">List Barang</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of suppliers">
+            <td>{{ data.nama }}</td>
+            <td>{{ data.alamat }}</td>
+            <td>
+                <ul *ngFor="let barang of data.listBarang">
+                    <li>
+                        <strong>{{barang.namaBarang}}</strong>
+                        <br>
+                        {{barang.deskripsi}}
+                        <br>
+                        Rp {{barang.harga}}
+                    </li>
+                </ul>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+</div>
+
+
+
+
+<ng-template #add let-modal>
+	<div class="modal-header">
+		<h4 class="modal-title" id="modal-basic-title">Tambah Transaksi Baru</h4>
+		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+	</div>
+	<div class="modal-body">
+    <form (submit)="createTransaction()">
+      <div class="mb-3">
+        <label for="tanggal" class="form-label">Tanggal</label>
+        <input type="date" class="form-control" id="tanggal" name="tanggal" required [(ngModel)]="newTransaction.tanggal">
+      </div>
+      <div class="mb-5">
+        <label for="grandTotal" class="form-label">Grand Total</label>
+        <input type="number" class="form-control" id="grandTotal" name="grandTotal" required [(ngModel)]="newTransaction.grandTotal">
+      </div>
+      <div class="col form-group mb-3">
+        <label for="supplier" class="form-label">Supplier</label>
+        <div ngbAccordion *ngFor="let data of suppliers" class="mb-2" name="supplier">
+            <div ngbAccordionItem>
+              <h2 ngbAccordionHeader>
+                <button ngbAccordionButton>{{data.nama}}</button>
+              </h2>
+              <div ngbAccordionCollapse>
+                <div ngbAccordionBody *ngFor="let barang of data.listBarang">
+                    <ng-template>
+                        {{barang.namaBarang}}
+                        <button type="button" class="btn btn-dark m-auto">Tambahkan</button>
+                    </ng-template>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- <select class="form-select" aria-label="Default select example" (change)="getSelectedValue($event)">
+            <option selected>Open this select menu</option>
+            <option value="{{data._id}}" *ngFor="let data of suppliers">{{data.nama}}</option>
+          </select> -->
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+      </div>
+    </form>
+	</div>
+</ng-template>

@@ -1,0 +1,30 @@
+<div class="row">
+    <div class="col-md-12 ">
+      <table class="table table-bordered mt-4" style="box-sizing: border-box;">
+        <thead class="table-light">
+          <tr class="text-center">
+            <th scope="col">Nama</th>
+            <th scope="col">Alamat</th>
+            <th scope="col">List Barang</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of suppliers">
+            <td>{{ data.nama }}</td>
+            <td>{{ data.alamat }}</td>
+            <td>
+                <ul *ngFor="let barang of data.listBarang">
+                    <li>
+                        <strong>{{barang.namaBarang}}</strong>
+                        <br>
+                        {{barang.deskripsi}}
+                        <br>
+                        Rp {{barang.harga}}
+                    </li>
+                </ul>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+</div>
